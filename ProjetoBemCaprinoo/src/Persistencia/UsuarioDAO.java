@@ -12,9 +12,6 @@ public class UsuarioDAO {
 	String INCLUIR = "INSERT INTO usuario (nome , email , senha) VALUES (?, ?, ?)";
 	String BUSCARCADASTRO = "SELECT * FROM \"usuario\" WHERE \"email\" = ? AND \"senha\" = ?";
 	String BUSCAREMAIL = "SELECT * FROM \"usuario\" WHERE \"email\" = ?";
-
-
-
 	
 	public void inclusao(Usuario password){
         try{
@@ -83,6 +80,8 @@ public class UsuarioDAO {
 	    return emailEncontrado;
 	}
 }
+
+
 
 
 

@@ -12,6 +12,8 @@ public class AnimalDAO {
 	String INCLUIR = "INSERT INTO animais (idanimal , racaanimal , pesoanimal, generoanimal) VALUES (?, ?, ?, ?)";
 	String BUSCARANIMAL = "SELECT * FROM \"animais\" WHERE \"idanimal\" = ?";
 	String REL = "SELECT * FROM \"animais\"";
+	String EXCLUIR = "DELETE FROM animais WHERE idanimal = ?";
+	String ALTERAR = "UPDATE animais SET racaanimal = ?, pesoanimal = ?, generoanimal = ? WHERE idanimal = ?";
 
 	public void incluir(Animal password){
        try{
@@ -31,23 +33,30 @@ public class AnimalDAO {
         }
     }
 	
-	 public ArrayList<Animal> RELATORIO(){
-	        ArrayList<Animal> lista = new ArrayList<>();
-	        try{
-	            Conexao.conectar();
-	            Statement instrucao = Conexao.getConexao().createStatement();
-	            ResultSet rs = instrucao.executeQuery(REL);
-	            while(rs.next()){
-	                Animal s = new Animal(rs.getInt("IdAnimal"), rs.getString("RacaAnimal"),
-	                                    rs.getDouble("PesoAnimal"), rs.getString("RacaAnimal"));
-	                lista.add(s);
-	            }
-	            Conexao.desconectar();
-	        }catch(SQLException e){
-	            System.out.println("Erro no relat�rio: "+e.getMessage());
+	public ArrayList<Animal> RELATORIO() {
+	    ArrayList<Animal> lista = new ArrayList<>();
+	    try {
+	        Conexao.conectar();
+	        Statement instrucao = Conexao.getConexao().createStatement();
+	        ResultSet rs = instrucao.executeQuery(REL);
+
+	        while (rs.next()) {
+	            int idAnimal = rs.getInt("IdAnimal");
+	            String racaAnimal = rs.getString("RacaAnimal");
+	            double pesoAnimal = rs.getDouble("PesoAnimal");
+	            String generoAnimal = rs.getString("GeneroAnimal");
+
+	            Animal animal = new Animal(idAnimal, racaAnimal, pesoAnimal, generoAnimal);
+	            lista.add(animal);
 	        }
-	        return lista;
+
+	        Conexao.desconectar();
+	    } catch (SQLException e) {
+	        System.out.println("Erro no relatório: " + e.getMessage());
 	    }
+	    return lista;
+	}
+
 	 
 	 public Integer buscarAnimal(int id) {
 		    Integer idencontrado = null;
@@ -68,5 +77,37 @@ public class AnimalDAO {
 		    }
 		    return idencontrado;
 		}
+	 
+	 public void excluir(int idAnimal) {
+		    try {
+		        Conexao.conectar();
+		        PreparedStatement instrucao = Conexao.getConexao().prepareStatement(EXCLUIR);
+		        instrucao.setInt(1, idAnimal);
+		        instrucao.execute();
+		        instrucao.close();
+		        Conexao.desconectar();
+		    } catch (SQLException e) {
+		        System.out.println("Erro ao excluir: " + e.getMessage());
+		    }
+		}
+	 
+	 public void alterar(Animal animal) {
+		    try {
+		        Conexao.conectar();
+		        PreparedStatement instrucao = Conexao.getConexao().prepareStatement(ALTERAR);
+		        
+		        instrucao.setString(1, animal.getRacaAnimal());
+		        instrucao.setDouble(2, animal.getPesoAnimal());
+		        instrucao.setString(3, animal.getGeneroAnimal());
+		        instrucao.setInt(4, animal.getIdAnimal());
+		        
+		        instrucao.executeUpdate();
+		        instrucao.close();
+		        Conexao.desconectar();
+		    } catch (SQLException e) {
+		        System.out.println("Erro ao alterar: " + e.getMessage());
+		    }
+		}
+
 }
 
