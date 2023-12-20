@@ -41,4 +41,7 @@ public class Doentes extends Animal{
 		public void setDescricao(String Descricao) {
 			this.Descricao = Descricao;
 		}
+		public void realizarAcao() {
+	        System.out.println("O animal doente com ID " + getIdAnimal() + " está recebendo tratamento para a doença " + NomeDoenca);
+	    	}
 }
