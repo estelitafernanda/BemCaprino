@@ -1,6 +1,6 @@
 package Dominio;
 
-public class Gestantes extends Animal {
+public class Gestantes extends Animal implements AnimalFilho {
     private int SeqGestacao;
     private String TipoGestacao;
     private String DataInicio;
@@ -55,6 +55,20 @@ public class Gestantes extends Animal {
 
     public void setTempoGestacao(int TempoGestacao) {
         this.TempoGestacao = TempoGestacao;
+    }
+     public void realizarAcao() {
+        System.out.println("A gestante com ID " + getIdAnimal() + " está passando por uma gestação do tipo " + TipoGestacao);
+    }
+    public boolean teveFilho() {
+        return true;
+    }
+
+    public void vacinarFilhote() {
+        System.out.println("Filhote vacinado");
+    }
+
+    public void verificarSaudeFilhote() {
+        System.out.println("Saúde do filhote verificada");
     }
 }
 
