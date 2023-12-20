@@ -12,7 +12,6 @@ import Dominio.Animal;
 import Dominio.Doentes;
 import Dominio.Usuario;
 import Persistencia.AnimalDAO;
-import Persistencia.Conexao;
 import Persistencia.DoentesDAO;
 import Persistencia.UsuarioDAO;
 import javafx.collections.FXCollections;
@@ -28,8 +27,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.converter.DoubleStringConverter;
 
 public class ControleBemcaprino implements Initializable {
 
@@ -221,6 +222,9 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	private TextField textoIDAnimalDoente;
+	
+	 @FXML
+	    private Button voltarAlteraExcluir;
 
 	@FXML
 	private Button btExcluir;
@@ -249,6 +253,9 @@ public class ControleBemcaprino implements Initializable {
 	@FXML
 	private TextField racEA;
 
+    @FXML
+    private Label mensagemAlterarExcluir;
+    
 	@FXML
 	private TextField idEA;
 
@@ -315,38 +322,83 @@ public class ControleBemcaprino implements Initializable {
 	}
 
 	@FXML
-	public void btALterarHelp(ActionEvent evente) throws IOException {
-		AnimalDAO alterarAnimal = new AnimalDAO();
-		Animal animal = new Animal();
-		String conteudo = idEA.getText().trim();
+	public void btALterarHelp() {
+	    AnimalDAO alterarAnimal = new AnimalDAO();
+	    Animal animal = new Animal();
 
-		animal.setIdAnimal(Integer.parseInt(idEA.getText().trim()));
+	    String idTexto = idEA.getText().trim();
+	    if (!idTexto.isEmpty()) {
+	        animal.setIdAnimal(Integer.parseInt(idTexto));
+	    }
 
-		String idTexto = idEA.getText().trim();
-		if (!idTexto.isEmpty()) {
-			animal.setIdAnimal(Integer.parseInt(idTexto));
-		}
+	    String raca = racEA.getText().trim();
+	    String pesoTexto = pesoEA.getText().trim();
+	    String genero = generoEA.getText().trim();
 
-		if (!conteudo.isEmpty()) {
-			try {
-				animal.setRacaAnimal(racEA.getText());
-				Double peso = Double.parseDouble(pesoEA.getText());
-				animal.setPesoAnimal(peso);
-				animal.setGeneroAnimal(generoEA.getText());
+	    if (genero.length() > 5) {
+	        mensagemAlterarExcluir.setText("Coloque Macho ou Femea");
+	        return;
+	    }
+	    
+	    if (!(genero.equalsIgnoreCase("macho") || genero.equalsIgnoreCase("femea"))) {
+	        mensagemAlterarExcluir.setText("Gênero deve ser 'Macho' ou 'Fêmea'.");
+	        return;
+	    }
 
-				alterarAnimal.alterar(animal);
+	    
+	    if (!isNumeric(pesoTexto)) {
+	        mensagemAlterarExcluir.setText("Coloque um numero no campo Peso");
+	        return;
+	    }
 
-				racEA.setText("");
-				generoEA.setText("");
-			} catch (NumberFormatException e) {
-				System.out.println("Erro de formato no peso: " + e.getMessage());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+	    if (!isNumericInteger(idTexto)) {
+	        mensagemAlterarExcluir.setText("Coloque um numero no campo ID");
+	        return;
+	    }
 
-			TelaExcluireAlterar.setVisible(false);
-		}
+	    Double peso = !pesoTexto.isEmpty() ? Double.parseDouble(pesoTexto) : null;
+
+	    if (raca.isEmpty()) {
+	        mensagemAlterarExcluir.setText("Campo 'Raça' deve ser preenchido.");
+	    } else if (peso == null) {
+	        mensagemAlterarExcluir.setText("Campo 'Peso' deve ser preenchido ");
+	    } else if (genero.isEmpty()) {
+	        mensagemAlterarExcluir.setText("Gênero' deve ser preenchido.");
+	    } else {
+	        try {
+	            animal.setRacaAnimal(raca);
+	            animal.setPesoAnimal(peso);
+	            animal.setGeneroAnimal(genero);
+
+	            alterarAnimal.alterar(animal);
+
+	        } catch (NumberFormatException e) {
+	            mensagemAlterarExcluir.setText("Erro de formato no peso: " + e.getMessage());
+	        } catch (Exception e) {
+	            mensagemAlterarExcluir.setText("Erro ao realizar a alteração: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+
+	        op = 2;
+	        configurarTela();
+
+	        TelaExcluireAlterar.setVisible(false);
+	    }
 	}
+
+
+	private boolean isNumeric(String str) {
+	    return str.matches("\\d+(\\.\\d+)?");
+	}
+	
+	private boolean isNumericInteger(String str) {
+	    return str.matches("\\d+"); 
+	}
+
+
+
+
+
 
 //
 
@@ -361,7 +413,10 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	public void btExcluirEAlterar(ActionEvent evente) throws IOException {
+		op = 2 ;
+		configurarTela();
 		TelaExcluireAlterar.setVisible(true);
+		
 	}
 
 	@FXML
@@ -386,33 +441,27 @@ public class ControleBemcaprino implements Initializable {
 
 		if (!email.isEmpty() && !senha.isEmpty()) {
 			Usuario password = uDAO.buscarCadastro(email, senha);
-
-			if (password == null) {
-				mensagem.setText("Usuário não cadastrado!");
-			} else {
-				mensagem.setText("Usuário localizado");
-				telaLogin.setVisible(false);
-				dashBord.setVisible(true);
-			}
 		}
 	}
 
+	
 	@FXML
 	public void btBuscUsu(ActionEvent evente) throws IOException {
-		String email = textoEmailC.getText();
-		String emailEncontrado = uDAO.buscarEmail(email);
+	    String email = textoEmailC.getText();
+	    String emailEncontrado = uDAO.buscarEmail(email);
 
-		if (emailEncontrado == null) {
-			btCad.setDisable(false);
-			botaoBucarUsu.setDisable(true);
-			mensagmeC.setText("Usuario Não cadastrado !!");
-		} else {
-			btCad.setDisable(true);
-			botaoBucarUsu.setDisable(false);
-			mensagmeC.setText("Usuario ja cadastrado !!");
-		}
+	    if (emailEncontrado == null) {
+	        btCad.setDisable(false);
+	        botaoBucarUsu.setDisable(true);
+	            mensagmeC.setText("Usuário Não cadastrado!!");
+	    } else {
+	        btCad.setDisable(true);
+	        botaoBucarUsu.setDisable(false);
+	            mensagmeC.setText("Usuário já cadastrado!!");
+	    }
 	}
 
+	
 	@FXML
 	public void btBusIdAnimal(ActionEvent evente) throws IOException {
 		try {
@@ -549,12 +598,18 @@ public class ControleBemcaprino implements Initializable {
 	}
 
 	@FXML
-	public void btVoltarLogin(ActionEvent evente) throws IOException {
-		telaLogin.setVisible(true);
-		telaCadastro.setVisible(false);
-		op = 1;
-		configurarTela();
+	public void btVoltarLogin(ActionEvent event) {
+	    try {
+	        telaLogin.setVisible(true);
+	        telaCadastro.setVisible(false);
+	        botaoBucarUsu.setDisable(false);
+	        op = 1;
+	        configurarTela();
+	    } catch (Exception e) {
+	        e.printStackTrace(); 
+	    }
 	}
+
 
 	@FXML
 	void btSairDBoard(ActionEvent event) throws IOException {
@@ -600,31 +655,38 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	void btCdDoente(ActionEvent event) {
-
+		
 	}
+	
+	@FXML
+    void voltaRelatorioAnimal(ActionEvent event) {
+		telaListaAnimail.setVisible(true);
+		TelaExcluireAlterar.setVisible(false);
+    }
 
 	private void configurarTela() {
-		switch (op) {
-		case 0:
-			textoNomeC.setText("");
-			textoEmailC.setText("");
-			textoSenhaC.setText("");
-			mensagmeC.setText("");
-			break;
-		case 1:
-			textoEmailL.setText("");
-			textoSenhaL.setText("");
-			mensagmeC.setText("");
-			mensagem.setText("");
-			textoIDAnimal.setText("");
-			textoRacaAnimal.setText("");
-			textoPesoAnimal.setText("");
-			textoGeneroAnimal.setText("");
-			mensagemAnimal.setText("");
-			break;
-		case 2:
-			break;
-
-		}
+	    switch (op) {
+	        case 0:
+	            textoNomeC.setText("");
+	            textoEmailC.setText("");
+	            textoSenhaC.setText("");
+	            mensagmeC.setText("");
+	            break;
+	        case 1:
+	            textoEmailL.setText("");
+	            textoSenhaL.setText("");
+	            textoIDAnimal.setText("");
+	            textoRacaAnimal.setText("");
+	            textoPesoAnimal.setText("");
+	            textoGeneroAnimal.setText("");
+	            mensagemAnimal.setText("");
+	            break;
+	        case 2:
+	            idEA.setText("");
+	            racEA.setText("");
+	            pesoEA.setText("");
+	            generoEA.setText("");
+	            break;
+	    }
 	}
 }
