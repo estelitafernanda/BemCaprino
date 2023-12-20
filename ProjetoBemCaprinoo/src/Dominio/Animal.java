@@ -1,6 +1,6 @@
 package Dominio;
 
-public class Animal {
+public class Animal extends AcaoAnimal {
 	private int IdAnimal;
 	private String RacaAnimal;
 	private Double PesoAnimal;
@@ -45,5 +45,8 @@ public class Animal {
 
 	 public void setGeneroAnimal(String GeneroAnimal) {
 	     this.GeneroAnimal = GeneroAnimal;
+	 }
+	 public void realizarAcao() {
+	        System.out.println("O animal com ID " + IdAnimal + " está realizando uma ação genérica.");
 	 }
 }
