@@ -27,10 +27,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.converter.DoubleStringConverter;
 
 public class ControleBemcaprino implements Initializable {
 
@@ -122,7 +120,7 @@ public class ControleBemcaprino implements Initializable {
 	private MenuItem botaoSair11;
 
 	@FXML
-	private MenuItem botaoSair12;
+	private MenuItem relatorioDoentes;
 
 	@FXML
 	private Button botaoSairDash;
@@ -289,11 +287,13 @@ public class ControleBemcaprino implements Initializable {
 	int op = 0;
 
 	private ObservableList<Animal> animais = FXCollections.observableArrayList();
+	private ObservableList<Doentes> doente = FXCollections.observableArrayList();
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		configurarTabela();
 		loadData();
+		loadDataDoente();
 	}
 
 	private void configurarTabela() {
@@ -302,10 +302,23 @@ public class ControleBemcaprino implements Initializable {
 		pesoColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("pesoAnimal"));
 		generoColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("generoAnimal"));
 	}
+	
+	private void configurarTabelaDoente() {
+		idDoente.setCellValueFactory(new PropertyValueFactory<>("idAnimal"));
+		doenca.setCellValueFactory(new PropertyValueFactory<>("NomeDoenca"));
+		tratamento.setCellValueFactory(new PropertyValueFactory<>("Tratamento"));
+		descricao.setCellValueFactory(new PropertyValueFactory<>("Descricao"));
+	}
+	
 
 	@FXML
 	public void btCadsRelatorio(ActionEvent evente) throws IOException {
 		loadData();
+	}
+	
+	@FXML
+	public void btCadsRelatorioDoente(ActionEvent evente) {
+		loadDataDoente();
 	}
 
 	private void loadData() {
@@ -320,6 +333,20 @@ public class ControleBemcaprino implements Initializable {
 
 		tabelaAnimal.refresh();
 	}
+	
+	private void loadDataDoente() {
+
+		doente.clear();
+
+		ArrayList<Doentes> dadosDoBanco = dDAO.RELATORIODoentes();
+
+		doente.addAll(dadosDoBanco);
+
+		tabelaDoente.setItems(doente);
+
+		tabelaDoente.refresh();
+	}
+
 
 	@FXML
 	public void btALterarHelp() {
@@ -395,13 +422,6 @@ public class ControleBemcaprino implements Initializable {
 	    return str.matches("\\d+"); 
 	}
 
-
-
-
-
-
-//
-
 	@FXML
 	public void btCadasSe(ActionEvent evente) throws IOException {
 		telaLogin.setVisible(false);
@@ -441,6 +461,8 @@ public class ControleBemcaprino implements Initializable {
 
 		if (!email.isEmpty() && !senha.isEmpty()) {
 			Usuario password = uDAO.buscarCadastro(email, senha);
+			telaLogin.setVisible(false);
+			dashBord.setVisible(true);
 		}
 	}
 
@@ -469,12 +491,12 @@ public class ControleBemcaprino implements Initializable {
 			Integer idencontrado = aDAO.buscarAnimal(id);
 
 			if (idencontrado == null) {
-				botaoBuscarIdDoente.setDisable(false);
-				mensagemDoentes.setText("Animal Não cadastrado !!");
+				botaoBuscaCadastroAni.setDisable(false);
+				mensagemAnimal.setText("Animal Não cadastrado !!");
 				botaoCadstAnimal.setDisable(false);
 			} else {
-				mensagemDoentes.setText("Animal já cadastrado !!");
-				botaoCadstDoente.setDisable(true);
+				mensagemAnimal.setText("Animal já cadastrado !!");
+				botaoCadstAnimal.setDisable(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -543,18 +565,20 @@ public class ControleBemcaprino implements Initializable {
 	}
 
 	@FXML
-	void btBuscarIDDoente(ActionEvent event) {
+	public void btBuscarIDDoente(ActionEvent event) {
 		try {
-			int id = Integer.parseInt(textoIDAnimal.getText());
+			int id = Integer.parseInt(textoIDAnimalDoente.getText());
 			Integer idencontrado = aDAO.buscarAnimal(id);
+			
+			op = 3 ;
+			configurarTela();
 
-			if (idencontrado == null) {
-				btCad.setDisable(false);
-				botaoBucarUsu.setDisable(true);
-				mensagemAnimal.setText("Animal Não cadastrado !!");
-				botaoCadstAnimal.setDisable(false);
+			if (idencontrado != null) {
+				botaoBuscarIdDoente.setDisable(false);
+				botaoCadstDoente.setDisable(false);
 			} else {
-				mensagemDoentes.setText("Animal já cadastrado !!");
+				mensagemDoentes.setText("Animal Não Cadastrado !!");
+				botaoCadstDoente.setDisable(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -615,6 +639,8 @@ public class ControleBemcaprino implements Initializable {
 	void btSairDBoard(ActionEvent event) throws IOException {
 		telaLogin.setVisible(true);
 		dashBord.setVisible(false);
+		op = 1 ;
+		configurarTela();
 	}
 
 	@FXML
@@ -636,30 +662,51 @@ public class ControleBemcaprino implements Initializable {
 	}
 
 	@FXML
-	void btCadsAnimalDoente(ActionEvent event) {
+	public void btCadsAnimalDoente(ActionEvent evente) {
 		telaListaAnimailDoent.setVisible(false);
 		telaCdAnimalDoente.setVisible(true);
 		botaoCadstDoente.setDisable(true);
 	}
 
 	@FXML
-	void btCadsRelatorioDoente(ActionEvent event) {
-
-	}
-
-	@FXML
-	void btSairListAniDoente(ActionEvent event) {
+	public void btSairListAniDoente(ActionEvent evente) {
 		telaListaAnimailDoent.setVisible(false);
 		dashBord.setVisible(true);
 	}
 
 	@FXML
-	void btCdDoente(ActionEvent event) {
-		
+	public void btCdDoente(ActionEvent evente) {
+		int id = (Integer.parseInt(textoIDAnimalDoente.getText()));
+		String doenca = textoDoencaDoente.getText();
+		String descricao = textoDescrDoente.getText();
+		String  tratamento = textoTratamentoDoente.getText();
+
+		if (doenca.isEmpty() | descricao.isEmpty() | tratamento.isEmpty()) {
+			mensagmeC.setText("os Campos são obrigatórios!");
+			return;
+		}
+
+		op = 1;
+		configurarTela();
+
+		Doentes doente = new Doentes();
+		doente.setIdAnimal(id);
+		doente.setNomeDoenca(doenca);
+		doente.setDescricao(descricao);
+		doente.setTratamento(tratamento);
+
+		switch (op) {
+		case 1:
+			dDAO.INCLUSAO(doente);
+			telaCdAnimalDoente.setVisible(false);
+			telaListaAnimailDoent.setVisible(true);
+			break;
+		}
+		configurarTela();
 	}
 	
 	@FXML
-    void voltaRelatorioAnimal(ActionEvent event) {
+    public void voltaRelatorioAnimal(ActionEvent evente) {
 		telaListaAnimail.setVisible(true);
 		TelaExcluireAlterar.setVisible(false);
     }
@@ -687,6 +734,9 @@ public class ControleBemcaprino implements Initializable {
 	            pesoEA.setText("");
 	            generoEA.setText("");
 	            break;
+	        case 3:
+	        	mensagemDoentes.setText("");
+	        	break;
 	    }
 	}
 }

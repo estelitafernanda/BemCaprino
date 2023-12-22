@@ -56,7 +56,7 @@ public class Gestantes extends Animal implements AnimalFilho {
     public void setTempoGestacao(int TempoGestacao) {
         this.TempoGestacao = TempoGestacao;
     }
-     public void realizarAcao() {
+    public void realizarAcao() {
         System.out.println("A gestante com ID " + getIdAnimal() + " está passando por uma gestação do tipo " + TipoGestacao);
     }
     public boolean teveFilho() {

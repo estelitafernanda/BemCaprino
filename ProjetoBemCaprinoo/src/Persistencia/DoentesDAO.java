@@ -5,60 +5,71 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import Dominio.Animal;
 import Dominio.Doentes;
 
 public class DoentesDAO {
 
-		String INCLUIR = "INSERT INTO doentes (NomeDoenca , Racaanimal , Pesoanimal, Generoanimal) VALUES (?, ?, ?, ?)";
-		String BUSCARDOENTE = "SELECT * FROM \"doentes\" WHERE \"AnimalId\" = ?";
-		String VERIFICAR_EXISTENCIA = "SELECT COUNT(*) FROM doentes WHERE IdAnimal = ?";
-		String REL = "SELECT AnimalId, NomeDoenca, Tratamento, Descricao FROM \"doentes\"";
-		
-		public void INCLUSAO(Doentes password){
-	        try{
-	        	Conexao.conectar();
-	        	
-	        	 PreparedStatement verificacao = Conexao.getConexao().prepareStatement(VERIFICAR_EXISTENCIA);
-	             verificacao.setInt(1, password.getIdAnimal());
-	             ResultSet resultado = verificacao.executeQuery();
+		String INCLUIR = "INSERT INTO doentes (NomeDoenca, Tratamento, Descricao , animalid) VALUES (?, ?, ? , ?)";
+		String BUSCARDOENTE = "SELECT * FROM \"doentes\" WHERE \"animalid\" = ?";
+		String REL = "SELECT nomedoenca, tratamento, descricao FROM doentes";
+		String VERIFICAR_EXISTENCIA = "SELECT COUNT(*) FROM animais WHERE idanimal = ?";
 
-	             if (resultado.next() && resultado.getInt(1) > 0) {
-	            	 
-	                 PreparedStatement instrucao = Conexao.getConexao().prepareStatement(INCLUIR);
-	                 instrucao.setString(1, password.getNomeDoenca());
-	                 instrucao.setString(2, password.getTratamento());
-	                 instrucao.setString(3, password.getDescricao());
 
-	                 instrucao.execute();
-	                 instrucao.close();
-	                 
-	             } else {
-	                 System.out.println("IdAnimal não existe no banco. Faça o tratamento apropriado.");
-	             }
+		public void INCLUSAO(Doentes password) {
+		    try {
+		        Conexao.conectar();
 
-	             verificacao.close();
-	             Conexao.desconectar();
-	        }catch(SQLException e){
-	            System.out.println("Erro na inclus�o: "+e.getMessage());
-	        }
-	    }
-		 public ArrayList<Doentes> RELATORIO(){
-		        ArrayList<Doentes> lista = new ArrayList<>();
-		        try{
-		            Conexao.conectar();
-		            Statement instrucao = Conexao.getConexao().createStatement();
-		            ResultSet rs = instrucao.executeQuery(REL);
-		            while(rs.next()){
-		                Doentes doente = new Doentes(rs.getInt("AnimalId"), rs.getString("NomeDoenca"),
-		                                    rs.getString("Tratamento"), rs.getString("Descricao"), rs.getString("Gravidade"));
-		                lista.add(doente);
-		            }
-		            Conexao.desconectar();
-		        }catch(SQLException e){
-		            System.out.println("Erro no relat�rio: "+e.getMessage());
+		        PreparedStatement verificacao = Conexao.getConexao().prepareStatement(VERIFICAR_EXISTENCIA);
+		        verificacao.setInt(1, password.getIdAnimal());
+		        ResultSet resultado = verificacao.executeQuery();
+
+		        if (resultado.next() && resultado.getInt(1) > 0) {
+		            PreparedStatement instrucao = Conexao.getConexao().prepareStatement(INCLUIR);
+		            instrucao.setString(1, password.getNomeDoenca());
+		            instrucao.setString(2, password.getTratamento());
+		            instrucao.setString(3, password.getDescricao());
+		            instrucao.setInt(4, password.getIdAnimal());
+		            instrucao.execute();
+		            instrucao.close();
+		        } else {
+		            System.out.println("AnimalId não existe na tabela animais. Faça o tratamento apropriado.");
 		        }
-		        return lista;
+
+		        verificacao.close();
+		        Conexao.desconectar();
+		    } catch (SQLException e) {
+		        System.out.println("Erro na inclusão: " + e.getMessage());
 		    }
+		}
+
+
+		public ArrayList<Doentes> RELATORIODoentes() {
+		    ArrayList<Doentes> lista = new ArrayList<>();
+
+		    try {
+		        Conexao.conectar();
+		        Statement instrucao = Conexao.getConexao().createStatement();
+		        ResultSet rs = instrucao.executeQuery(REL);
+
+		        while (rs.next()) {
+		            String doencaNome = rs.getString("NomeDoenca");
+		            String tratamento = rs.getString("Tratamento");
+		            String descricao = rs.getString("Descricao");
+
+		            Doentes doente = new Doentes(0, doencaNome, tratamento, descricao);
+		            lista.add(doente);
+		        }
+
+		        Conexao.desconectar();
+		    } catch (SQLException e) {
+		        System.out.println("Erro no relatório: " + e.getMessage());
+		    }
+		    return lista;
+		}
+
+		 
 		 public Integer buscarAnimal(int animalid) {
 			    Integer idencontrado = null;
 			    try {
@@ -74,7 +85,10 @@ public class DoentesDAO {
 
 			        Conexao.desconectar();
 			    } catch (SQLException e) {
+			        // Imprima a pilha de chamadas para diagnóstico
+			        e.printStackTrace();
 			        System.out.println("Erro na busca: " + e.getMessage());
 			    }
 			    return idencontrado;
-			}}
+			}
+}

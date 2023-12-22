@@ -1,5 +1,5 @@
 package Dominio;
 
 public abstract class AcaoAnimal {
-  public abstract void realizarAcao();
+    public abstract void realizarAcao();
 }

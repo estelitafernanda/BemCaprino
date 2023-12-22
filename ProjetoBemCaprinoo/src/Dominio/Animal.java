@@ -49,4 +49,5 @@ public class Animal extends AcaoAnimal {
 	 public void realizarAcao() {
 	        System.out.println("O animal com ID " + IdAnimal + " está realizando uma ação genérica.");
 	 }
+	
 }
