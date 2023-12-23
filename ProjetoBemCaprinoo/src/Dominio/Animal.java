@@ -1,5 +1,7 @@
 package Dominio;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Animal extends AcaoAnimal {
 	private int IdAnimal;
 	private String RacaAnimal;
@@ -46,6 +48,9 @@ public class Animal extends AcaoAnimal {
 	 public void setGeneroAnimal(String GeneroAnimal) {
 	     this.GeneroAnimal = GeneroAnimal;
 	 }
+	 public SimpleIntegerProperty idAnimalProperty() {
+	        return new SimpleIntegerProperty(IdAnimal);
+	    }
 	 public void realizarAcao() {
 	        System.out.println("O animal com ID " + IdAnimal + " está realizando uma ação genérica.");
 	 }

@@ -13,7 +13,7 @@ public class DoentesDAO {
 
 		String INCLUIR = "INSERT INTO doentes (NomeDoenca, Tratamento, Descricao , animalid) VALUES (?, ?, ? , ?)";
 		String BUSCARDOENTE = "SELECT * FROM \"doentes\" WHERE \"animalid\" = ?";
-		String REL = "SELECT nomedoenca, tratamento, descricao FROM doentes";
+		String REL = "SELECT animalid , nomedoenca, tratamento, descricao FROM doentes";
 		String VERIFICAR_EXISTENCIA = "SELECT COUNT(*) FROM animais WHERE idanimal = ?";
 
 
@@ -54,11 +54,12 @@ public class DoentesDAO {
 		        ResultSet rs = instrucao.executeQuery(REL);
 
 		        while (rs.next()) {
+		        	int idAnimal = rs.getInt("animalid");
 		            String doencaNome = rs.getString("NomeDoenca");
 		            String tratamento = rs.getString("Tratamento");
 		            String descricao = rs.getString("Descricao");
 
-		            Doentes doente = new Doentes(0, doencaNome, tratamento, descricao);
+		            Doentes doente = new Doentes(idAnimal, doencaNome, tratamento, descricao);
 		            lista.add(doente);
 		        }
 
@@ -85,7 +86,6 @@ public class DoentesDAO {
 
 			        Conexao.desconectar();
 			    } catch (SQLException e) {
-			        // Imprima a pilha de chamadas para diagnóstico
 			        e.printStackTrace();
 			        System.out.println("Erro na busca: " + e.getMessage());
 			    }

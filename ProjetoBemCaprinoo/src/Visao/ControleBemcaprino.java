@@ -292,19 +292,20 @@ public class ControleBemcaprino implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		configurarTabela();
+		configurarTabelaDoente();
 		loadData();
 		loadDataDoente();
 	}
 
 	private void configurarTabela() {
-		idColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("idAnimal"));
+		idColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("IdAnimal"));
 		racaColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("racaAnimal"));
 		pesoColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("pesoAnimal"));
 		generoColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("generoAnimal"));
 	}
 	
 	private void configurarTabelaDoente() {
-		idDoente.setCellValueFactory(new PropertyValueFactory<>("idAnimal"));
+		idDoente.setCellValueFactory(new PropertyValueFactory<>("IdAnimal"));
 		doenca.setCellValueFactory(new PropertyValueFactory<>("NomeDoenca"));
 		tratamento.setCellValueFactory(new PropertyValueFactory<>("Tratamento"));
 		descricao.setCellValueFactory(new PropertyValueFactory<>("Descricao"));
@@ -317,7 +318,7 @@ public class ControleBemcaprino implements Initializable {
 	}
 	
 	@FXML
-	public void btCadsRelatorioDoente(ActionEvent evente) {
+	public void btCadsRelatorioDoente(ActionEvent evente) throws IOException{
 		loadDataDoente();
 	}
 
