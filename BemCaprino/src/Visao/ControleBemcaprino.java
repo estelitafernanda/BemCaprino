@@ -10,9 +10,11 @@ import java.util.ResourceBundle;
 
 import Dominio.Animais;
 import Dominio.Doentes;
+import Dominio.Gestantes;
 import Dominio.Usuario;
 import Persistencia.AnimaisDAO;
 import Persistencia.DoentesDAO;
+import Persistencia.GestantesDAO;
 import Persistencia.UsuarioDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,10 +29,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.converter.DoubleStringConverter;
 
 public class ControleBemcaprino implements Initializable {
 
@@ -63,6 +63,22 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	private TableColumn<Animais, Integer> idDoente;
+	
+	@FXML 
+	private TableView <Gestantes> TabelaGestantes;
+	
+	@FXML
+	private TableColumn <Gestantes, Integer> idGestante;
+	
+	@FXML
+	private TableColumn <Gestantes, String> tipoGestante;
+	
+	@FXML
+	private TableColumn <Gestantes, String> DataGestante;
+	
+	@FXML
+	private TableColumn <Gestantes, String> TempoGestante;
+	
 
 	@FXML
 	private Button botaoBucarUsu;
@@ -87,6 +103,12 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	private Button botaoCadstAnimalGestacao;
+	
+	@FXML
+	private Button botaoBuscarIdGestante;
+	
+	@FXML
+	private Button botaoVoltarListGest;
 
 	@FXML
 	private Button botaoCadstDoente;
@@ -99,9 +121,21 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	private Button botaoEntraGest;
+	
+	@FXML
+	private MenuItem botaoSairGestante;
 
 	@FXML
 	private Button botaoEntraLA;
+	
+	@FXML
+	private AnchorPane telaCdAnimalGestant;
+	
+	@FXML
+    private MenuItem botaoCadsAnimalGest;
+	
+	@FXML
+	private MenuItem botaoRelatorGestan;
 
 	@FXML
 	private MenuButton botaoMenu;
@@ -114,15 +148,21 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	private Label mensagemDoentes;
+	
+	@FXML
+	private Label mensagemGestantes;
 
 	@FXML
 	private MenuItem botaoSair;
 
 	@FXML
 	private MenuItem botaoSair11;
+	
+	@FXML
+    private MenuItem ExcluirAlterarDoentes;
 
 	@FXML
-	private MenuItem botaoSair12;
+	private MenuItem relatorioDoentes;
 
 	@FXML
 	private Button botaoSairDash;
@@ -162,6 +202,37 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	private Label mensagmeC;
+	
+    @FXML
+    private TextField DescrEADoentes;
+
+    @FXML
+    private TextField DoencaEADoentes;
+
+    @FXML
+    private MenuItem botaoExcluirAlterarDoentes;
+    
+    @FXML
+    private AnchorPane TelaExcluireAlterarDoentes;
+
+    @FXML
+    private TextField TratEADoentes;
+    
+    @FXML
+    private Button btExcluirDoentes;
+    
+    @FXML
+    private Button botaoVoltarEADoente;
+    
+    @FXML
+    private TextField idEADoente;
+    
+    @FXML
+    private Label mensagemAlterarExcluirDoentes;
+
+
+    @FXML
+    private Button botaoAlterarDoente;
 
 	@FXML
 	private AnchorPane telaCadastro;
@@ -183,6 +254,33 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	private AnchorPane telaListaAnimailGestan;
+	
+	@FXML
+	private AnchorPane TelaExcluireAlterarGestantes;
+
+	@FXML
+    private TextField DataEAGestantes;
+	
+    @FXML
+    private TextField TempoEAGestantes;
+
+    @FXML
+    private TextField TipoEAGestantes;
+    
+    @FXML
+    private Button botaoAlterarGestantes;
+    
+    @FXML
+    private Button botaoVoltarEAGestantes;
+    
+    @FXML
+    private Button btExcluirGestantes;
+    
+    @FXML
+    private TextField idEAGestante;
+    
+    @FXML
+    private Label mensagemAlterarExcluirGestantes;
 
 	@FXML
 	private AnchorPane telaLogin;
@@ -201,6 +299,9 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	private MenuItem botaoExcluir;
+	
+	@FXML
+	private MenuItem botaoExcluirAlterarGestantes;
 
 	@FXML
 	private TextField textoEmailL;
@@ -208,8 +309,6 @@ public class ControleBemcaprino implements Initializable {
 	@FXML
 	private TextField textoGeneroAnimal;
 
-	@FXML
-	private TextField textoGeneroAnimal11;
 
 	@FXML
 	private TextField textoGravidadeDoente;
@@ -218,13 +317,22 @@ public class ControleBemcaprino implements Initializable {
 	private TextField textoIDAnimal;
 
 	@FXML
-	private TextField textoIDAnimal11;
-
-	@FXML
 	private TextField textoIDAnimalDoente;
 	
-	 @FXML
-	    private Button voltarAlteraExcluir;
+	@FXML
+	private TextField textoIDAnimalGestante;
+	
+	@FXML
+	private TextField textoTempoAnimalGestant;
+	
+	@FXML
+	private TextField textoDataAnimalGestant;
+	
+	@FXML
+	private TextField textoTipoAnimalGestant;
+	
+	@FXML
+	private Button voltarAlteraExcluir;
 
 	@FXML
 	private Button btExcluir;
@@ -279,6 +387,10 @@ public class ControleBemcaprino implements Initializable {
 
 	Doentes d;
 	DoentesDAO dDAO = new DoentesDAO();
+	
+	Gestantes g;
+	GestantesDAO gDAO = new GestantesDAO(); 
+	
 
 	String query = null;
 	Connection connection = null;
@@ -289,23 +401,53 @@ public class ControleBemcaprino implements Initializable {
 	int op = 0;
 
 	private ObservableList<Animais> animais = FXCollections.observableArrayList();
-
+	private ObservableList<Doentes> doente = FXCollections.observableArrayList();
+	private ObservableList<Gestantes> gestante = FXCollections.observableArrayList();
+	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		configurarTabela();
+		configurarTabelaDoente();
+		configurarTabelaGestante();
 		loadData();
+		loadDataDoente();
+		loadDataGestante();
 	}
 
 	private void configurarTabela() {
-		idColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("idAnimal"));
+		idColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("IdAnimal"));
 		racaColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("racaAnimal"));
 		pesoColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("pesoAnimal"));
 		generoColunaAnimal.setCellValueFactory(new PropertyValueFactory<>("generoAnimal"));
+	}
+	
+	private void configurarTabelaDoente() {
+		idDoente.setCellValueFactory(new PropertyValueFactory<>("IdAnimal"));
+		doenca.setCellValueFactory(new PropertyValueFactory<>("NomeDoenca"));
+		tratamento.setCellValueFactory(new PropertyValueFactory<>("Tratamento"));
+		descricao.setCellValueFactory(new PropertyValueFactory<>("Descricao"));
+	}
+	private void configurarTabelaGestante() {
+		idGestante.setCellValueFactory(new PropertyValueFactory<>("IdAnimal"));
+		tipoGestante.setCellValueFactory(new PropertyValueFactory<>("TipoGestacao"));
+		DataGestante.setCellValueFactory(new PropertyValueFactory<>("DataInicio"));
+		TempoGestante.setCellValueFactory(new PropertyValueFactory<>("TempoGestacao"));
+		
 	}
 
 	@FXML
 	public void btCadsRelatorio(ActionEvent evente) throws IOException {
 		loadData();
+	}
+	
+	@FXML
+	public void btCadsRelatorioDoente(ActionEvent evente) throws IOException{
+		loadDataDoente();
+	}
+	
+	@FXML
+    public void btRelatorioGestan (ActionEvent evente) {
+		loadDataGestante();
 	}
 
 	private void loadData() {
@@ -320,6 +462,35 @@ public class ControleBemcaprino implements Initializable {
 
 		tabelaAnimal.refresh();
 	}
+	
+	private void loadDataDoente() {
+
+		doente.clear();
+		
+		ArrayList<Doentes> dadosDoBanco = dDAO.RELATORIODoentes();
+		
+		for (Doentes doente : dadosDoBanco ) {
+			System.out.println(doente.getIdAnimal());
+		}
+		doente.addAll(dadosDoBanco);
+		
+
+		tabelaDoente.setItems(doente);
+		
+		tabelaDoente.refresh();
+	}
+	private void loadDataGestante() {
+		gestante.clear();
+		
+		ArrayList<Gestantes> dadosDoBanco = gDAO.RELATORIO();
+		gestante.addAll(dadosDoBanco);
+		
+		TabelaGestantes.setItems(gestante);
+		
+		TabelaGestantes.refresh();
+		
+	}
+
 
 	@FXML
 	public void btALterarHelp() {
@@ -395,13 +566,6 @@ public class ControleBemcaprino implements Initializable {
 	    return str.matches("\\d+"); 
 	}
 
-
-
-
-
-
-//
-
 	@FXML
 	public void btCadasSe(ActionEvent evente) throws IOException {
 		telaLogin.setVisible(false);
@@ -440,7 +604,16 @@ public class ControleBemcaprino implements Initializable {
 		String senha = textoSenhaL.getText();
 
 		if (!email.isEmpty() && !senha.isEmpty()) {
-			Usuario password = uDAO.buscarCadastro(email, senha);
+			UsuarioDAO uDAO = new UsuarioDAO(); 
+			Usuario usuario = uDAO.buscarCadastro(email, senha);
+			if (usuario != null) {
+				dashBord.setVisible(true);
+				telaLogin.setVisible(false);
+			} else {
+				System.out.println("Usuário não encontrado. Verifique suas credenciais.");
+			}
+		} else {
+			System.out.println("Por favor, preencha ambos os campos.");
 		}
 	}
 
@@ -469,12 +642,12 @@ public class ControleBemcaprino implements Initializable {
 			Integer idencontrado = aDAO.buscarAnimal(id);
 
 			if (idencontrado == null) {
-				botaoBuscarIdDoente.setDisable(false);
-				mensagemDoentes.setText("Animal Não cadastrado !!");
+				botaoBuscaCadastroAni.setDisable(false);
+				mensagemAnimal.setText("Animal Não cadastrado !!");
 				botaoCadstAnimal.setDisable(false);
 			} else {
-				mensagemDoentes.setText("Animal já cadastrado !!");
-				botaoCadstDoente.setDisable(true);
+				mensagemAnimal.setText("Animal já cadastrado !!");
+				botaoCadstAnimal.setDisable(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -543,23 +716,46 @@ public class ControleBemcaprino implements Initializable {
 	}
 
 	@FXML
-	void btBuscarIDDoente(ActionEvent event) {
+	public void btBuscarIDDoente(ActionEvent event) {
 		try {
-			int id = Integer.parseInt(textoIDAnimal.getText());
+			int id = Integer.parseInt(textoIDAnimalDoente.getText());
 			Integer idencontrado = aDAO.buscarAnimal(id);
+			
+			op = 3;
+			configurarTela();
 
-			if (idencontrado == null) {
-				btCad.setDisable(false);
-				botaoBucarUsu.setDisable(true);
-				mensagemAnimal.setText("Animal Não cadastrado !!");
-				botaoCadstAnimal.setDisable(false);
+			if (idencontrado != null) {
+				botaoBuscarIdDoente.setDisable(false);
+				botaoCadstDoente.setDisable(false);
 			} else {
-				mensagemDoentes.setText("Animal já cadastrado !!");
+				mensagemDoentes.setText("Animal Não Cadastrado !!");
+				botaoCadstDoente.setDisable(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	@FXML
+    void btBuscarIDGestante(ActionEvent event) {
+		try {
+			int id = Integer.parseInt(textoIDAnimalGestante.getText());
+			Integer idencontrado = aDAO.buscarAnimal(id);
+		
+			op = 3;
+			configurarTela();
+
+			if (idencontrado != null) {
+				botaoBuscarIdGestante.setDisable(false);
+				botaoCadstAnimalGestacao.setDisable(false);
+			} else {
+				mensagemGestantes.setText("Animal Não Cadastrado !!");
+				botaoCadstAnimalGestacao.setDisable(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	@FXML
 	public void btAniDoente(ActionEvent evente) throws IOException {
@@ -580,15 +776,81 @@ public class ControleBemcaprino implements Initializable {
 	}
 
 	@FXML
-	public void btCadAnimal(ActionEvent evente) throws IOException {
+    void btexcluirDoentes(ActionEvent event) {
+		DoentesDAO doenteDAO = new DoentesDAO();
+		String conteudo = idEADoente.getText();
+		String nomeDoenca = DoencaEADoentes.getText();
+		
+		try {
+			if (conteudo.isEmpty() || nomeDoenca.isEmpty()) {
+				mensagemAlterarExcluirDoentes.setText("Digite o ID e a Doença, são obrigatórios!");
+				return;
+			}
+			
+			int idAnimal = Integer.parseInt(conteudo);
+			DoentesDAO.excluir(idAnimal, nomeDoenca);
+			TelaExcluireAlterarDoentes.setVisible(false);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		TelaExcluireAlterarDoentes.setVisible(false);
+
+    }
+	@FXML
+	void voltaRelatorioDoentes(ActionEvent event) {
+		telaListaAnimailDoent.setVisible(true);
+		TelaExcluireAlterarDoentes.setVisible(false);
 
 	}
+	@FXML
+	void btALterarDoente(ActionEvent event) {
+	    DoentesDAO alterarDoente = new DoentesDAO();
+	    Doentes doente = new Doentes();
+	    
+	    String idTexto = idEADoente.getText().trim();
+	    if (!idTexto.isEmpty() && isNumericInteger(idTexto)) {
+	        doente.setIdAnimal(Integer.parseInt(idTexto));
+	    } else {
+	        mensagemAlterarExcluirDoentes.setText("Coloque um número válido no campo 'ID'.");
+	        return;
+	    }
 
+	    String doenca = DoencaEADoentes.getText().trim();
+	    String trat = TratEADoentes.getText().trim();
+	    String descr = DescrEADoentes.getText().trim();
+	    
+	    try {
+	        if (doenca.isEmpty()) {
+	            mensagemAlterarExcluirDoentes.setText("Campo 'Doença' deve ser preenchido.");
+	            return;
+	        } else if (trat.isEmpty()) {
+	            mensagemAlterarExcluirDoentes.setText("Campo 'Tratamento' deve ser preenchido.");
+	            return;
+	        } else if (descr.isEmpty()) {
+	            mensagemAlterarExcluirDoentes.setText("Campo 'Descrição' deve ser preenchido.");
+	            return;
+	        }
+
+	        doente.setNomeDoenca(doenca);
+	        doente.setTratamento(trat);
+	        doente.setDescricao(descr);
+
+	        alterarDoente.alterar(doente);
+	        op = 4;
+	        configurarTela();
+	        TelaExcluireAlterarDoentes.setVisible(false);
+	    } catch (NumberFormatException e) {
+	        e.printStackTrace();
+	    }
+	}
+    
 	@FXML
 	public void btCadsAnimal(ActionEvent event) throws IOException {
 		telaListaAnimail.setVisible(false);
 		telaCdAnimal.setVisible(true);
 		botaoCadstAnimal.setDisable(true);
+		op = 1;
+		configurarTela();
 	}
 
 	@FXML
@@ -615,6 +877,8 @@ public class ControleBemcaprino implements Initializable {
 	void btSairDBoard(ActionEvent event) throws IOException {
 		telaLogin.setVisible(true);
 		dashBord.setVisible(false);
+		op = 1 ;
+		configurarTela();
 	}
 
 	@FXML
@@ -632,37 +896,196 @@ public class ControleBemcaprino implements Initializable {
 
 	@FXML
 	void btCdAnimalGestacao(ActionEvent event) {
+		int id = (Integer.parseInt(textoIDAnimalGestante.getText()));
+		String tipo = textoTipoAnimalGestant.getText();
+		String tempo = textoTempoAnimalGestant.getText();
+		String data = textoDataAnimalGestant.getText();
 
+		if (tipo.isEmpty() | data.isEmpty()) {
+			mensagmeC.setText("os Campos são obrigatórios!");
+			return;
+		}
+
+		op = 1;
+		configurarTela();
+
+		Gestantes gestante = new Gestantes();
+		gestante.setIdAnimal(id);
+		gestante.setTipoGestacao(tipo);
+		gestante.setTempoGestacao(tempo);
+		gestante.setDataInicio(data);
+
+		switch (op) {
+		case 1:
+			gDAO.INCLUSAO(gestante);
+			System.out.println(gestante.getIdAnimal() );
+			telaCdAnimalGestant.setVisible(false);
+			telaListaAnimailGestan.setVisible(true);
+			break;
+		}
+		configurarTela();
 	}
-
+		
+	
 	@FXML
-	void btCadsAnimalDoente(ActionEvent event) {
+	public void btCadsAnimalDoente(ActionEvent evente) {
 		telaListaAnimailDoent.setVisible(false);
 		telaCdAnimalDoente.setVisible(true);
 		botaoCadstDoente.setDisable(true);
+		op = 1;
+		configurarTela();
 	}
 
 	@FXML
-	void btCadsRelatorioDoente(ActionEvent event) {
-
-	}
-
-	@FXML
-	void btSairListAniDoente(ActionEvent event) {
+	public void btSairListAniDoente(ActionEvent evente) {
 		telaListaAnimailDoent.setVisible(false);
 		dashBord.setVisible(true);
 	}
-
+	
 	@FXML
-	void btCdDoente(ActionEvent event) {
-		
+	public void btSairListGestantes (ActionEvent evente) {
+		telaListaAnimailGestan.setVisible(false);
+		dashBord.setVisible(true);
 	}
 	
 	@FXML
-    void voltaRelatorioAnimal(ActionEvent event) {
+	public void btExcluirAlterarDoente(ActionEvent evente) throws IOException {
+		op = 4 ;
+		configurarTela();
+		TelaExcluireAlterarDoentes.setVisible(true);
+	}
+	@FXML
+	void btExcluirAlterarGestantes(ActionEvent evente) throws IOException {
+		op = 5 ;
+		configurarTela();
+		TelaExcluireAlterarGestantes.setVisible(true);
+		
+	}
+
+	@FXML
+	public void btCdDoente(ActionEvent evente) {
+		int id = (Integer.parseInt(textoIDAnimalDoente.getText()));
+		String doenca = textoDoencaDoente.getText();
+		String descricao = textoDescrDoente.getText();
+		String  tratamento = textoTratamentoDoente.getText();
+
+		if (doenca.isEmpty() | descricao.isEmpty() | tratamento.isEmpty()) {
+			mensagmeC.setText("os Campos são obrigatórios!");
+			return;
+		}
+
+		op = 1;
+		configurarTela();
+
+		Doentes doente = new Doentes();
+		doente.setIdAnimal(id);
+		doente.setNomeDoenca(doenca);
+		doente.setDescricao(descricao);
+		doente.setTratamento(tratamento);
+
+		switch (op) {
+		case 1:
+			dDAO.INCLUSAO(doente);
+			System.out.println(doente.getIdAnimal() );
+			telaCdAnimalDoente.setVisible(false);
+			telaListaAnimailDoent.setVisible(true);
+			break;
+		}
+		configurarTela();
+	}
+	
+	@FXML
+    public void btCadsAnimalGest (ActionEvent evente) {
+		telaListaAnimailGestan.setVisible(false);
+		telaCdAnimalGestant.setVisible(true);
+		botaoCadstAnimalGestacao.setDisable(true);
+		op = 1;
+		configurarTela(); 
+	}
+
+	
+	@FXML
+    void btALterarGestantes(ActionEvent event) {
+		 GestantesDAO alterarGestante = new GestantesDAO();
+		    Gestantes gestante = new Gestantes();
+
+		    String idTexto = idEAGestante.getText().trim();
+		    if (!idTexto.isEmpty() && isNumericInteger(idTexto)) {
+		        gestante.setIdAnimal(Integer.parseInt(idTexto));
+		    } else {
+		        mensagemAlterarExcluirGestantes.setText("Coloque um número válido no campo 'ID'.");
+		        return;
+		    }
+
+		    String tipo = TipoEAGestantes.getText().trim();
+		    String data = DataEAGestantes.getText().trim();
+		    String tempo = TempoEAGestantes.getText().trim();
+
+		    try {
+		        if (tipo.isEmpty()) {
+		            mensagemAlterarExcluirGestantes.setText("Campo 'Tipo Gestacao' deve ser preenchido.");
+		            return;
+		        } else if (data.isEmpty()) {
+		            mensagemAlterarExcluirGestantes.setText("Campo 'Data Inicio' deve ser preenchido.");
+		            return;
+		        } else if (tempo.isEmpty()) {
+		            mensagemAlterarExcluirGestantes.setText("Campo 'Tempo Gestação' deve ser preenchido.");
+		            return; 
+		        }
+
+		        gestante.setTipoGestacao(tipo);
+		        gestante.setDataInicio(data);
+		        gestante.setTempoGestacao(tempo);
+
+		        alterarGestante.alterar(gestante);
+		        
+		        op = 4;
+		        configurarTela();
+		        TelaExcluireAlterarGestantes.setVisible(false);
+		    } catch (NumberFormatException e) {
+		        e.printStackTrace();
+		    }
+		}
+	    
+		
+	@FXML
+	void btexcluirGestantes(ActionEvent event) {
+		GestantesDAO gestanteDAO = new GestantesDAO();
+		String conteudo = idEAGestante.getText();
+		String tipoGestacao = TipoEAGestantes.getText();
+		
+		try {
+			if (conteudo.isEmpty() || tipoGestacao.isEmpty()) {
+				mensagemAlterarExcluirDoentes.setText("Digite o ID e a Doença, são obrigatórios!");
+				return;
+			}
+			
+			int idAnimal = Integer.parseInt(conteudo);
+			GestantesDAO.excluir(idAnimal, tipoGestacao);
+			TelaExcluireAlterarGestantes.setVisible(false);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		TelaExcluireAlterarDoentes.setVisible(false);
+
+    }
+		
+	@FXML
+	void voltaRelatorioGestantes(ActionEvent event) {
+		telaListaAnimailGestan.setVisible(true);
+		TelaExcluireAlterarGestantes.setVisible(false);
+	}
+    
+	@FXML
+    public void voltaRelatorioAnimal(ActionEvent evente) {
 		telaListaAnimail.setVisible(true);
 		TelaExcluireAlterar.setVisible(false);
     }
+	@FXML
+    public void btVoltListGestantes (ActionEvent evente) {
+		telaListaAnimailGestan.setVisible(true);
+		telaCdAnimalGestant.setVisible(false);
+	}
 
 	private void configurarTela() {
 	    switch (op) {
@@ -680,6 +1103,16 @@ public class ControleBemcaprino implements Initializable {
 	            textoPesoAnimal.setText("");
 	            textoGeneroAnimal.setText("");
 	            mensagemAnimal.setText("");
+	            textoIDAnimalDoente.setText("");
+	            textoDescrDoente.setText("");
+	            textoTratamentoDoente.setText("");
+	            textoDoencaDoente.setText("");
+	            mensagemDoentes.setText("");
+	            textoIDAnimalGestante.setText("");
+	            textoTempoAnimalGestant.setText("");
+	            textoDataAnimalGestant.setText("");
+	            textoTipoAnimalGestant.setText("");
+	            mensagemGestantes.setText("");
 	            break;
 	        case 2:
 	            idEA.setText("");
@@ -687,6 +1120,23 @@ public class ControleBemcaprino implements Initializable {
 	            pesoEA.setText("");
 	            generoEA.setText("");
 	            break;
+	        case 3:
+	        	mensagemDoentes.setText("");
+	        	mensagemGestantes.setText("");
+	        	break;
+	        case 4:
+	        	 idEADoente.setText("");
+		         DoencaEADoentes.setText("");
+		         TratEADoentes.setText("");
+		         DescrEADoentes.setText("");
+		         mensagemAlterarExcluirDoentes.setText("");
+	        	break;
+	        case 5:
+	        	 idEAGestante.setText("");
+		          TipoEAGestantes.setText("");
+		          DataEAGestantes.setText("");
+		          TempoEAGestantes.setText("");
+	        	break;
 	    }
 	}
 }

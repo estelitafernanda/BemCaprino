@@ -1,37 +1,28 @@
 package Dominio;
 
 public class Gestantes extends Animais implements AnimalFilho {
-    private int SeqGestacao;
     private String TipoGestacao;
     private String DataInicio;
-    private int TempoGestacao; 
+    private String TempoGestacao; 
     
     public Gestantes() {
     	
     	
     }
 
-    public Gestantes(int IdAnimal, String RacaAnimal, double PesoAnimal, String GeneroAnimal, int SeqGestacao, String TipoGestacao, String DataInicio, int TempoGestacao) {
+    public Gestantes(int IdAnimal, String RacaAnimal, double PesoAnimal, String GeneroAnimal, String TipoGestacao, String DataInicio, String TempoGestacao) {
         super(IdAnimal, RacaAnimal, PesoAnimal, GeneroAnimal);
-        this.SeqGestacao = SeqGestacao;
         this.TipoGestacao = TipoGestacao;
         this.DataInicio = DataInicio;
         this.TempoGestacao = TempoGestacao; 
     }
-    public Gestantes (int IdAnimal, int SeqGestacao, String TipoGestacao, String DataInicio, int TempoGestacao) {
-    	 this.SeqGestacao = SeqGestacao;
+    public Gestantes (int IdAnimal, String TipoGestacao, String DataInicio, String TempoGestacao) {
+    	 super.setIdAnimal(IdAnimal);
          this.TipoGestacao = TipoGestacao;
          this.DataInicio = DataInicio;
          this.TempoGestacao = TempoGestacao; 
     }
 
-    public int getSeqGestacao() {
-        return SeqGestacao;
-    }
-
-    public void setSeqGestacao(int SeqGestacao) {
-        this.SeqGestacao = SeqGestacao;
-    }
 
     public String getTipoGestacao() {
         return TipoGestacao;
@@ -49,25 +40,26 @@ public class Gestantes extends Animais implements AnimalFilho {
         this.DataInicio = DataInicio;
     }
 
-    public int getTempoGestacao() {
+    public String getTempoGestacao() {
         return TempoGestacao;
     }
 
-    public void setTempoGestacao(int TempoGestacao) {
+    public void setTempoGestacao(String TempoGestacao) {
         this.TempoGestacao = TempoGestacao;
     }
-    public void realizarAcao() {
-        System.out.println("A gestante com ID " + getIdAnimal() + " está passando por uma gestação do tipo " + TipoGestacao);
+    public String realizarAcao() {
+    	return "A gestante com ID " + getIdAnimal() + " está passando por uma gestação do tipo " + TipoGestacao;
+ 
     }
     public boolean teveFilho() {
         return true;
     }
 
-    public void vacinarFilhote() {
-        System.out.println("Filhote vacinado");
+    public String vacinarFilhote() {
+    	return "Filhote vacinado";
     }
 
-    public void verificarSaudeFilhote() {
-        System.out.println("Saúde do filhote verificada");
+    public String verificarSaudeFilhote() {
+    	return "Saúde do filhote verificada";
     }
 }

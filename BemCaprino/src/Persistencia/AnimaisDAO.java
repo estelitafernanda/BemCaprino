@@ -108,5 +108,29 @@ public class AnimaisDAO {
 		        System.out.println("Erro ao alterar: " + e.getMessage());
 		    }
 		}
+	 public Animais buscarAnimalId(int id) {
+		    Animais animalEncontrado = null;
+		    try {
+		        Conexao.conectar();
+		        PreparedStatement instrucao = Conexao.getConexao().prepareStatement(BUSCARANIMAL);
+		        instrucao.setInt(1, id);
+
+		        ResultSet resultado = instrucao.executeQuery();
+
+		        if (resultado.next()) {
+		            int idAnimal = resultado.getInt("IdAnimal");
+		            String racaAnimal = resultado.getString("RacaAnimal");
+		            double pesoAnimal = resultado.getDouble("PesoAnimal");
+		            String generoAnimal = resultado.getString("GeneroAnimal");
+
+		            animalEncontrado = new Animais(idAnimal, racaAnimal, pesoAnimal, generoAnimal);
+		        }
+
+		        Conexao.desconectar();
+		    } catch (SQLException e) {
+		        System.out.println("Erro na busca: " + e.getMessage());
+		    }
+		    return animalEncontrado;
+		}
 
 }

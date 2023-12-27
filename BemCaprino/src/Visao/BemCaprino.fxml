@@ -176,12 +176,12 @@
       </AnchorPane>
       <AnchorPane fx:id="telaCdAnimalDoente" minHeight="400.0" minWidth="300.0" prefHeight="440.0" prefWidth="400.0" visible="false">
          <children>
-            <Label layoutX="82.0" layoutY="134.0" text="ID">
+            <Label layoutX="83.0" layoutY="158.0" text="ID">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label layoutX="64.0" layoutY="168.0" text="Doença">
+            <Label layoutX="57.0" layoutY="191.0" text="Doença">
                <font>
                   <Font size="15.0" />
                </font>
@@ -202,27 +202,21 @@
                </font>
             </Label>
             <Label fx:id="mensagemDoentes" layoutX="107.0" layoutY="15.0" prefHeight="17.0" prefWidth="188.0" />
-            <TextField fx:id="textoIDAnimalDoente" layoutX="126.0" layoutY="132.0" prefHeight="25.0" prefWidth="149.0" />
+            <TextField fx:id="textoIDAnimalDoente" layoutX="127.0" layoutY="156.0" prefHeight="25.0" prefWidth="149.0" />
             <TextField fx:id="textoDescrDoente" layoutX="126.0" layoutY="272.0" prefHeight="45.0" prefWidth="149.0" />
             <TextField fx:id="textoTratamentoDoente" layoutX="126.0" layoutY="223.0" prefHeight="45.0" prefWidth="149.0" />
-            <TextField fx:id="textoDoencaDoente" layoutX="126.0" layoutY="166.0" />
+            <TextField fx:id="textoDoencaDoente" layoutX="127.0" layoutY="189.0" />
             <Button fx:id="botaoCadstDoente" layoutX="167.0" layoutY="346.0" mnemonicParsing="false" onAction="#btCdDoente" text="Cadastrar" />
             <Button fx:id="botaoVoltarDoente" layoutX="320.0" layoutY="89.0" mnemonicParsing="false" onAction="#btVoltListaDoentes" text="Voltar" />
-            <TextField fx:id="textoGravidadeDoente" layoutX="126.0" layoutY="197.0" prefHeight="21.0" prefWidth="149.0" />
-            <Label layoutX="43.0" layoutY="199.0" text="Gravidade">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
             <Label layoutX="163.0" layoutY="87.0" text="Doentes">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Button fx:id="botaoBuscarIdDoente" layoutX="318.0" layoutY="132.0" mnemonicParsing="false" onAction="#btBuscarIDDoente" text="Buscar" />
+            <Button fx:id="botaoBuscarIdDoente" layoutX="319.0" layoutY="156.0" mnemonicParsing="false" onAction="#btBuscarIDDoente" text="Buscar" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="telaCdAnimal11" layoutY="5.0" minHeight="400.0" minWidth="300.0" prefHeight="430.0" prefWidth="400.0" visible="false">
+      <AnchorPane fx:id="telaCdAnimalGestant" layoutY="5.0" minHeight="400.0" minWidth="300.0" prefHeight="430.0" prefWidth="400.0" visible="false">
          <children>
             <Label layoutX="80.0" layoutY="158.0" text="ID">
                <font>
@@ -244,13 +238,14 @@
                   <Font size="30.0" />
                </font>
             </Label>
-            <Label layoutX="115.0" layoutY="15.0" prefHeight="17.0" prefWidth="188.0" />
-            <TextField fx:id="textoIDAnimal11" layoutX="134.0" layoutY="156.0" prefHeight="25.0" prefWidth="149.0" />
-            <TextField fx:id="textoGeneroAnimal11" layoutX="134.0" layoutY="291.0" prefHeight="25.0" prefWidth="149.0" />
-            <TextField fx:id="textoPesoAnimal11" layoutX="134.0" layoutY="244.0" prefHeight="21.0" prefWidth="149.0" />
+            <Label fx:id="mensagemGestantes" layoutX="115.0" layoutY="15.0" prefHeight="17.0" prefWidth="188.0" />
+            <TextField fx:id="textoIDAnimalGestante" layoutX="134.0" layoutY="156.0" prefHeight="25.0" prefWidth="149.0" />
+            <TextField fx:id="textoTempoAnimalGestant" layoutX="134.0" layoutY="291.0" prefHeight="25.0" prefWidth="149.0" />
+            <TextField fx:id="textoDataAnimalGestant" layoutX="134.0" layoutY="244.0" prefHeight="21.0" prefWidth="149.0" />
+            <TextField fx:id="textoTipoAnimalGestant" layoutX="134.0" layoutY="203.0" prefHeight="25.0" prefWidth="149.0" />
             <Button fx:id="botaoCadstAnimalGestacao" layoutX="167.0" layoutY="355.0" mnemonicParsing="false" onAction="#btCdAnimalGestacao" text="Cadastrar" />
-            <Button fx:id="botaoVoltarListA11" layoutX="326.0" layoutY="74.0" mnemonicParsing="false" onAction="#btVoltListA" text="Voltar" />
-            <TextField fx:id="textoRacaAnimal111" layoutX="134.0" layoutY="203.0" prefHeight="25.0" prefWidth="149.0" />
+            <Button fx:id="botaoVoltarListGest" layoutX="326.0" layoutY="74.0" mnemonicParsing="false" onAction="#btVoltListGestantes" text="Voltar" />
+            <Button fx:id="botaoBuscarIdGestante" layoutX="325.0" layoutY="156.0" mnemonicParsing="false" onAction="#btBuscarIDGestante" text="Buscar" />
             <Label layoutX="7.0" layoutY="205.0" text="Tipo da Gestação">
                <font>
                   <Font size="15.0" />
@@ -281,7 +276,8 @@
             <MenuButton fx:id="botaoMenuDoente" layoutX="14.0" layoutY="95.0" mnemonicParsing="false" text="Menu">
                <items>
                   <MenuItem fx:id="botaoCadsAnimalDoente" mnemonicParsing="false" onAction="#btCadsAnimalDoente" text="Cadastrar" />
-                  <MenuItem fx:id="botaoSair12" mnemonicParsing="false" onAction="#btCadsRelatorioDoente" text="Relatório" />
+                  <MenuItem fx:id="relatorioDoentes" mnemonicParsing="false" onAction="#btCadsRelatorioDoente" text="Relatório" />
+                  <MenuItem fx:id="ExcluirAlterarDoentes" mnemonicParsing="false" onAction="#btExcluirAlterarDoente" text="Excluir/Alterar" />
                   <MenuItem fx:id="botaoSairDoente" mnemonicParsing="false" onAction="#btSairListAniDoente" text="Voltar" />
                </items>
             </MenuButton>
@@ -290,6 +286,22 @@
                   <Font size="20.0" />
                </font>
             </Label>
+            <AnchorPane fx:id="TelaExcluireAlterarDoentes" layoutX="74.0" layoutY="83.0" prefHeight="265.0" prefWidth="252.0" style="-fx-background-color: grey;" visible="false">
+               <children>
+                  <Label layoutX="30.0" layoutY="79.0" text="Doença" />
+                  <Label layoutX="31.0" layoutY="34.0" text="ID" />
+                  <Label layoutX="12.0" layoutY="124.0" text="Tratamento" />
+                  <Label layoutX="17.0" layoutY="170.0" text="Descrição" />
+                  <TextField fx:id="idEADoente" layoutX="74.0" layoutY="30.0" />
+                  <TextField fx:id="DoencaEADoentes" layoutX="74.0" layoutY="75.0" />
+                  <TextField fx:id="TratEADoentes" layoutX="74.0" layoutY="122.0" />
+                  <TextField fx:id="DescrEADoentes" layoutX="74.0" layoutY="166.0" />
+                  <Button fx:id="btExcluirDoentes" layoutX="88.0" layoutY="206.0" mnemonicParsing="false" onAction="#btexcluirDoentes" text="Excluir" />
+                  <Button fx:id="botaoAlterarDoente" layoutX="155.0" layoutY="206.0" mnemonicParsing="false" onAction="#btALterarDoente" text="Alterar" />
+                  <Button fx:id="botaoVoltarEADoente" layoutX="11.0" layoutY="230.0" mnemonicParsing="false" onAction="#voltaRelatorioDoentes" text="Voltar" />
+                  <Label fx:id="mensagemAlterarExcluirDoentes" layoutX="29.0" layoutY="6.0" prefHeight="17.0" prefWidth="195.0" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="telaListaAnimailGestan" minHeight="400.0" minWidth="300.0" prefHeight="440.0" prefWidth="400.0" visible="false">
@@ -299,18 +311,20 @@
                   <Font size="30.0" />
                </font>
             </Label>
-            <TableView layoutX="1.0" layoutY="139.0" prefHeight="301.0" prefWidth="400.0">
+            <TableView fx:id="TabelaGestantes" layoutX="1.0" layoutY="139.0" prefHeight="301.0" prefWidth="400.0">
                <columns>
-                  <TableColumn prefWidth="70.0" text="ID" />
-                  <TableColumn prefWidth="109.0" text="Tipo" />
-                  <TableColumn prefWidth="117.0" text="Data Inicio" />
-                  <TableColumn prefWidth="103.0" text="Tempo" />
+                  <TableColumn fx:id="idGestante" prefWidth="70.0" text="ID" />
+                  <TableColumn fx:id="tipoGestante" prefWidth="109.0" text="Tipo" />
+                  <TableColumn fx:id="DataGestante" prefWidth="117.0" text="Data Inicio" />
+                  <TableColumn fx:id="TempoGestante" prefWidth="103.0" text="Tempo" />
                </columns>
             </TableView>
             <MenuButton fx:id="botaoMenu11" layoutX="14.0" layoutY="96.0" mnemonicParsing="false" text="Menu">
                <items>
-                  <MenuItem fx:id="botaoCadsAnimal11" mnemonicParsing="false" onAction="#btCadsAnimal" text="Cadastra" />
-                  <MenuItem fx:id="botaoSair11" mnemonicParsing="false" onAction="#btSairListAni" text="Voltar" />
+                  <MenuItem fx:id="botaoCadsAnimalGest" mnemonicParsing="false" onAction="#btCadsAnimalGest" text="Cadastrar" />
+                  <MenuItem fx:id="botaoRelatorGestan" mnemonicParsing="false" onAction="#btRelatorioGestan" text="Relatório" />
+                  <MenuItem fx:id="botaoExcluirAlterarGestantes" mnemonicParsing="false" onAction="#btExcluirAlterarGestantes" text="Excluir/Alterar" />
+                  <MenuItem fx:id="botaoSairGestante" mnemonicParsing="false" onAction="#btSairListGestantes" text="Voltar" />
                </items>
             </MenuButton>
             <Label layoutX="120.0" layoutY="93.0" text="Animais Gestantes">
@@ -318,6 +332,22 @@
                   <Font size="20.0" />
                </font>
             </Label>
+            <AnchorPane fx:id="TelaExcluireAlterarGestantes" layoutX="75.0" layoutY="88.0" prefHeight="265.0" prefWidth="252.0" style="-fx-background-color: grey;" visible="false">
+               <children>
+                  <Label layoutX="30.0" layoutY="79.0" text="Tipo" />
+                  <Label layoutX="31.0" layoutY="34.0" text="ID" />
+                  <Label layoutX="12.0" layoutY="124.0" text="Data Inicio" />
+                  <Label layoutX="25.0" layoutY="170.0" text="Tempo" />
+                  <TextField fx:id="idEAGestante" layoutX="74.0" layoutY="30.0" />
+                  <TextField fx:id="TipoEAGestantes" layoutX="74.0" layoutY="75.0" />
+                  <TextField fx:id="DataEAGestantes" layoutX="74.0" layoutY="122.0" />
+                  <TextField fx:id="TempoEAGestantes" layoutX="74.0" layoutY="166.0" />
+                  <Button fx:id="btExcluirGestantes" layoutX="88.0" layoutY="206.0" mnemonicParsing="false" onAction="#btexcluirGestantes" text="Excluir" />
+                  <Button fx:id="botaoAlterarGestantes" layoutX="155.0" layoutY="206.0" mnemonicParsing="false" onAction="#btALterarGestantes" text="Alterar" />
+                  <Button fx:id="botaoVoltarEAGestantes" layoutX="11.0" layoutY="230.0" mnemonicParsing="false" onAction="#voltaRelatorioGestantes" text="Voltar" />
+                  <Label fx:id="mensagemAlterarExcluirGestantes" layoutX="29.0" layoutY="6.0" prefHeight="17.0" prefWidth="195.0" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

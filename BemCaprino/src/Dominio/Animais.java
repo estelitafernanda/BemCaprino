@@ -44,10 +44,10 @@ public class Animais extends AcaoAnimal {
 	 }
 
 	 public void setGeneroAnimal(String GeneroAnimal) {
-	     this.GeneroAnimal = GeneroAnimal;
+	     this.GeneroAnimal = GeneroAnimal; 
 	 }
-	 public void realizarAcao() {
-	        System.out.println("O animal com ID " + IdAnimal + " está realizando uma ação genérica.");
+	 public String realizarAcao() {
+		 return "O animal com ID " + IdAnimal + " está realizando uma ação genérica.";
 	 }
 	
 }

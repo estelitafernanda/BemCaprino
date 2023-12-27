@@ -4,6 +4,7 @@ public class Doentes extends Animais{
 		private String NomeDoenca;
 		private String Tratamento; 
 		private String Descricao;
+
 		
 		public Doentes() {
 		
@@ -17,7 +18,8 @@ public class Doentes extends Animais{
 
 			
 		}
-		public Doentes (int IdAnimal, String NomeDoenca, String Tratamento, String Descricao, String Gravidade ) {
+		public Doentes (int IdAnimal, String NomeDoenca, String Tratamento, String Descricao ) {
+			super.setIdAnimal(IdAnimal);
 			this.NomeDoenca = NomeDoenca;
 			this.Tratamento = Tratamento;
 			this.Descricao = Descricao;
@@ -36,12 +38,12 @@ public class Doentes extends Animais{
 			this.Tratamento = Tratamento;
 		}
 		public String getDescricao() {
-			return Descricao;
+			return Descricao; 
 		}
 		public void setDescricao(String Descricao) {
 			this.Descricao = Descricao;
 		}
-		public void realizarAcao() {
-	        System.out.println("O animal doente com ID " + getIdAnimal() + " está recebendo tratamento para a doença " + NomeDoenca);
+		public String realizarAcao() {
+			return "O animal doente com ID " + getIdAnimal() + " está recebendo tratamento para a doença " + NomeDoenca;
 	    }
 }
